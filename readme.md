@@ -6,8 +6,6 @@
 
 3UCS Server安装时会自动安装biztool，此处的代码与安装包只存在版本新旧问题，直接替换即可。
 
-<body lang=ZH-CN link=blue vlink=purple style='text-justify-trim:punctuation'>
-
 <div class=Section1 style='layout-grid:15.6pt'>
 
 <p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
