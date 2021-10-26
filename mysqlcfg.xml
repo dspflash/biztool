@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config remark="For mysql BizXML Tool">
+<queryFormat id="dbs">show databases</queryFormat>
+<queryFormat id="tables">select `TABLE_NAME` from `INFORMATION_SCHEMA`.`TABLES` where `TABLE_SCHEMA` = '%{CB_DB}' and `TABLE_TYPE` = 'BASE TABLE'</queryFormat>
+<queryFormat id="views">select `TABLE_NAME` from `INFORMATION_SCHEMA`.`VIEWS` where `TABLE_SCHEMA` = '%{CB_DB}'</queryFormat>
+<queryFormat id="tbfields">show full fields from `%{CB_DB}`.`%{CB_Table}`</queryFormat>
+<queryFormat id="tbdatas">select * from %{CB_DB}.%{CB_Table} limit 0,10</queryFormat>
+<queryFormat id="tbdatacnts">select count(0) from %{CB_DB}.%{CB_Table}</queryFormat>
+<queryFormat id="ctrltbfields">show full fields from `%{CB_DB}`.`%{ctrldbtables}`</queryFormat>
+<queryFormat id="ctrltbdatas">select * from %{CB_DB}.%{ctrldbtables} limit 0,10</queryFormat>
+<queryFormat id="tbpages">select %{data} from %{dbtable} %{where} limit %{StartRow},%{PgSize}</queryFormat>
+<!--queryFormat id="tables">select `TABLE_NAME` from `INFORMATION_SCHEMA`.`TABLES` where `TABLE_SCHEMA` = '%{CB_DB}' and `TABLE_TYPE` = 'BASE TABLE'</queryFormat-->
+</config>

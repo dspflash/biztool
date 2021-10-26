@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config remark="For sqlite BizXML Tool">
+<queryFormat id="dbs"></queryFormat>
+<queryFormat id="tables">select name from sqlite_master where type='table' order by name</queryFormat>
+<dfmap id="dfmapfield"><map name="field" value="name"/><map name="key" value="pk"/></dfmap>
+<queryFormat id="tbfields">PRAGMA table_info(%{CB_Table})</queryFormat>
+<queryFormat id="tbdatas">select * from %{CB_Table} limit 10 offset 0</queryFormat>
+<queryFormat id="tbdatacnts">select count(0) from %{CB_Table}</queryFormat>
+<queryFormat id="ctrltbfields">PRAGMA table_info(%{ctrldbtables})</queryFormat>
+<queryFormat id="ctrltbdatas">select * from %{ctrldbtables} limit 10 offset 0</queryFormat>
+<queryFormat id="tbpages">select %{data} from %{dbtable} %{where} limit %{PgSize} offset %{StartRow}</queryFormat>
+<!--queryFormat id="tables">select `TABLE_NAME` from `INFORMATION_SCHEMA`.`TABLES` where `TABLE_SCHEMA` = '%{CB_DB}' and `TABLE_TYPE` = 'BASE TABLE'</queryFormat-->
+</config>

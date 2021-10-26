@@ -1,0 +1,73 @@
+DROP TABLE IF EXISTS `bizdep`;
+CREATE TABLE `bizdep` (
+  `dep_id` INTEGER NOT NULL,
+  `dep_name_cn` varchar(20) default NULL,
+  `dep_name_eng` varchar(50) default NULL,
+  `zone_id` int(11) default NULL,
+  `id_corp` int(11) default '0',
+  PRIMARY KEY  (`dep_id`)
+);
+create index bizdepzone_id on bizdep ('zone_id');
+create index bizdepidcorp on bizdep ('id_corp');
+
+DROP TABLE IF EXISTS `bizrole`;
+CREATE TABLE `bizrole` (
+  `role_id` INTEGER NOT NULL,
+  `role_name_cn` varchar(20) NOT NULL,
+  `role_name_eng` varchar(50) default NULL,
+  `role_purview` tinyint(4) default '0',
+  `role_layout` varchar(100) default NULL,
+  `case_owner` mediumtext,
+  `id_corp` int(11) default '0',
+  PRIMARY KEY  (`role_id`)
+);
+create index bizroleidcorp on bizrole ('id_corp');
+
+DROP TABLE IF EXISTS `blacklist`;
+CREATE TABLE `blacklist` (
+  `phone` varchar(20) NOT NULL UNIQUE,
+  `actived` tinyint(1) default '1',
+  `id_corp` int(11) default '0',
+  `callednum` varchar(20) default NULL,
+  PRIMARY KEY  (`phone`)
+);
+DROP TABLE IF EXISTS `userlogin`;
+CREATE TABLE `userlogin` (
+  `user_code` INTEGER NOT NULL,
+  `user_name` varchar(40) NOT NULL UNIQUE ,
+  `user_password` varchar(40) default NULL,
+  `queues` varchar(20) default NULL,
+  `status` varchar(20) default 'u',
+  `updatetime` int(10) default NULL,
+  `active` smallint(6) default '1',
+  `aliascon` varchar(100) default NULL,
+  `protocol` varchar(5) default NULL,
+  `layout` varchar(100) default NULL,
+  `TerminalType` tinyint(4) default '0',
+  `userlevel` tinyint(4) default '127',
+  `bizdep` int(11) default '0',
+  `bizrole` int(11) default '0',
+  `interCall` int(11) default '86400',
+  `localCall` int(11) default '0',
+  `domesticCall` int(11) default '0',
+  `internationalCall` int(11) default '0',
+  `id_corp` int(11) default '1',
+  `user_picture` varchar(100) default NULL,
+  PRIMARY KEY  (`user_code`)
+);
+create index userloginbizdep on userlogin ('bizdep');
+create index userloginbizrole on userlogin ('bizrole');
+create index userloginid_corp on userlogin ('id_corp');
+create index userloginactive on userlogin ('active');DROP TABLE IF EXISTS `traceinfo`;
+CREATE TABLE `traceinfo` (
+id INTEGER PRIMARY KEY AUTOINCREMENT, 
+customer TEXT NOT NULL, 
+itemname TEXT NOT NULL, 
+vendor TEXT NOT NULL, 
+quantity INTEGER, 
+lot TEXT, 
+dt TEXT, 
+itemnumber TEXT, 
+itemrev TEXT
+);
+insert into traceinfo (customer,vendor,quantity,itemname,itemnumber,lot,itemrev,dt) values('51992092','022904','400','终端装饰类配件-RHONE-PC壳-透明-HUAWEI-保护壳-多语言版-Inbox-156*74-PC','1A2286200-V01-DA','51992092170901A-001','A','1735');

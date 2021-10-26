@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" ?>
+<WndTap Name="rpa_studio" Text="RPA_STUDIO">
+<WndTaps>
+<WndTap Name="popweb" Text="popweb" popup="1"><Ctrls>
+	<WebBrowser Name="wb" Studio="0" Size="700,600">
+		<OnChanged>
+		<Log filename="../log/STUDIO_%{app.now.date}.txt" expr="LocationUrlPath:%{wb[LocationUrlPath]} ReadyState:%{wb[ReadyState]} HTTPStatusCode:%{wb[HTTPStatusCode]}"/>
+		</OnChanged>
+		<OnError><Log filename="../log/STUDIO_%{app.now.date}.txt" expr="LocationUrl:%{wb[LocationUrl]} HTTPStatusCode:%{wb[HTTPStatusCode]}"/></OnError></WebBrowser>
+</Ctrls></WndTap>
+</WndTaps>
+<var name="url" expr="http://localhost/incubator-echarts/build/mybi.htm"/>
+	<Ctrls>
+	<GroupBox Name="GBTAB"><Ctrls>
+	<GroupBox Text="X+ Robot Studio" Name="xrobot_studio" id="GB_xrobot_studio" Size="100,100" feature="tab"><Ctrls>
+		<TextBox Name="URLADDR" Size="300,20" Text="http://centyou.com" ToolTip="Web Url to Open..."/>
+	    <Button Name="URLNAV" Text="打开" Size="50,20" OnClick="(rpa_web)%{URLADDR}" ToolTip="Open Website defined in pre textbox"/>%{$this.url}<TAB/>
+	    <Button Name="URLNAV1" Text="打开1" Size="50,20" ToolTip="Open website 3ucs.com"><OnClick><assign name="rpa_web" expr="%{$this.url}" function="Navigate"/></OnClick></Button><TAB/>
+        <Button Name="retrieve" Size="30,20" Text="提取"><OnClick Background="1"><assign name="ElmtInfo" expr="%{rpa_web[p]}"><p>%{taginfo}</p></assign></OnClick></Button><TAB/>
+        <Button Name="changeval" Size="30,20" Text="赋值"><OnClick><assign name="rpa_web[p]" expr="%{ElmtInfo}"><p>%{taginfo}</p></assign></OnClick></Button><TAB/>
+        <Button Name="click" Size="50,20" Text="Click"><OnClick><assign name="rpa_web[p]" expr="_click_"><p>%{taginfo}</p></assign></OnClick></Button><TAB/>
+		<ComboBox Name="idxElmt" Size="50,100" SelectedIndex="0" items="0~20" ToolTip="index of element or frame"></ComboBox>
+        <Button Name="InstallEventHandler" Size="30,20" Text="Install" ToolTip="InstallEventHandler Frame of "><OnClick><assign name="rpa_web" expr="%{idxElmt}" function="InstallEventHandler"></assign></OnClick></Button><TAB/>
+		<CheckBox Name="webhtml" Size="50,20" Text="HTML"/><TAB/>
+		<Button Name="xSpy" Text="xSpy" Size="50,20" ToolTip="Open xSpy to spy window and controls"><OnClick><assign name="topmost" expr="exec:xSpy.exe"/></OnClick></Button><TAB/>
+        <Button Name="whileloop" Size="100,20" Text="whileloop" ToolTip="Info method to display header menus in 3UCS.com..."><OnClick Background="1">
+		<assign name="browser.lstpg" expr="0"/><assign name="wcon" expr=""/><while cond="!%{wcon}"><sleep interval="100" remark="microseconds"/><info expr="%{browser.lstpg}"/>
+		<assign name="rpa_web[n]" expr="0"/>
+		<assign name="wcon" expr="%{rpa_web[p]}"><p><item tag="DIV[class=dbx-content] DIV a" name="airvalue" index="n" parentdata="0"/></p></assign></while>
+		<while cond="%{wcon}"><info expr="%{wcon}"/>
+		<if cond="%{rpa_web[n]}==1"><elseif cond="%{rpa_web[n]}==2"/><continue/><goto next="test"/><break/></if>
+		<assign name="rpa_web[n]" expr="js(%{rpa_web[n]}+1)"/>
+		<assign name="wcon" expr="%{rpa_web[p]}"><p><item tag="DIV[class=dbx-content] DIV a" name="airvalue" index="n" parentdata="0"/></p></assign>
+		</while>
+		</OnClick></Button><TAB/>
+		<BR/><TextBox Name="file2upload" Size="300,20" Text="D:\Program Files (x86)\3UCS\3UCS NISU\test.xls" Tooltip="File to Upload or excel to read&write"/>
+        <Button Name="webupload" Size="50,20" Text="网页上传"><OnClick Background="0"><TAB/>
+		<!--assign name="rpa_web[p]" expr="_click_"><p><item tag="BODY DIV[id=page] DIV[id=wrapper] DIV[id=left-col] DIV[id=nav] UL LI a" name="airvalue" index="5" parentdata="0"><item tag="A"/></item></p></assign-->
+		<assign delay="1000" retry="10" wndName="选择要加载的文件" ctrlClass="Edit" expr="%{file2upload}" function="SetText" follow-up="1"><assign wndName="选择要加载的文件" ctrlName="打开(&O)" function="btnclick"/></assign><assign name="rpa_web[p]" expr="_click_"><p><item tag="INPUT[id=file_realpath] " name="airvalue" attr="value"></item></p></assign>
+		<!--assign name="rpa_web[p]" expr="_click_"><p><item tag="SELECT[id=download_category]" parentdata="0"/></p></assign>
+		<assign name="rpa_web[p]" expr="selected"><p><item tag="SELECT[id=download_category] OPTION[value=5]" parentdata="0" attr="selected"/></p></assign>
+		<assign name="rpa_web[p]" expr="test"><p><item tag="INPUT[id=file_name]" parentdata="0" attr="value"/></p></assign>
+		<assign name="rpa_web[p]" expr="test"><p><item tag="TEXTAREA[id=file_description]" parentdata="0" attr="value"/></p></assign>
+		<assign name="rpa_web[p]" expr="_click_"><p><item tag="INPUT[name=upload] " name="airvalue" attr="value"></item></p></assign--></OnClick></Button><TAB/>
+		<TextBox Name="sheet" Size="100,20" ToolTip="Sheet name or macro name"/>
+		<Button Name="xexcelbtn" Text="测试xexcel" Size="100,20" tooltip="write List to xexcel"><OnClick><ExchangeData name="xExcel" DataSect="6BACF5C9-AF7A-481E-AE7A-B81378D097BF" function="write" OptionMode="1" remark="read default0,write default2;0,mustexist;1,createifnotexist;2truncate if exist" filename="%{file2upload}"/><submit next="ExcelList" namelist="ExchangeData" function="ExchangeData"/></OnClick></Button><TAB/>
+		<Button Name="execMacro" Text="Exec Macro" Size="100,20" tooltip="xexcel"><OnClick><ExchangeData function="execmacro" filename="%{file2upload}" macro="%{sheet}"/><submit next="xExcel" namelist="ExchangeData" function="6BACF5C9-AF7A-481E-AE7A-B81378D097BF"/></OnClick></Button><TAB/>
+		<MagicCtrl Name="xExcel" fadeout="min:0;" link="tip:read excel to list" text="xExcel" images="" Size="100,80" OnLoad="init">
+			<interface id="xExcelA" type="IBizInterface" codebase="xexcel.dll" dir="layout/ucin" classid="6BACF5C9-AF7A-481E-AE7A-B81378D097BF" version="1.0"/>
+			<OnClick><magicdata x="" function="read" sheet="%{sheet}" filename="%{file2upload}"><b>a反对萨发的萨发</b><c><fafasf/></c></magicdata><submit next="xexcel" namelist="magicdata" function="6BACF5C9-AF7A-481E-AE7A-B81378D097BF"/></OnClick>
+			<OnEvent_6BACF5C9-AF7A-481E-AE7A-B81378D097BF_1><info next="tst" expr="%{xExcel[6BACF5C9-AF7A-481E-AE7A-B81378D097BF.stat]};%{xExcel[6BACF5C9-AF7A-481E-AE7A-B81378D097BF.statmsg]}"/><if cond="0==%{xExcel[6BACF5C9-AF7A-481E-AE7A-B81378D097BF.stat]}"><ExchangeData name="ExcelList"/><submit next="xexcel" dataSect="6BACF5C9-AF7A-481E-AE7A-B81378D097BF" namelist="ExchangeData" function="ExchangeData"/></if></OnEvent_6BACF5C9-AF7A-481E-AE7A-B81378D097BF_1>
+		</MagicCtrl>
+		<Button Name="chart" Text="chartweb" Size="100,20" tooltip="chart"><OnClick><ExchangeData name="rpa_web" function="ExchangeData"/><submit next="ExcelList" namelist="ExchangeData" function="ExchangeData"/></OnClick></Button>
+		<Button Name="RunJS" Text="RunJS" Size="100,20" tooltip="web javascript open 3ucs.com,centyou.com"><OnClick><JavaScript>window.open('http://3ucs.com')</JavaScript><submit next="rpa_web" namelist="JavaScript" function="RunJS"/><assign name="rpa_web" expr="window.open('http://centyou.com')" function="runjs"/></OnClick></Button>
+        <BR/><TextBox Name="taginfo" Size="300,150" Text="" ToolTip="提取参数"><text><item name="airvalue" tag="div[id=wrap] div div" hp="1" html="%{webhtml}" index="%{idxElmt}" parentdata="0"></item></text></TextBox>
+		<TextBox Name="ElmtInfo" Size="400,150" Text="网页内容或提取的内容" ToolTip="网页内容或提取的内容"/>
+		<ListCtrl Name="ExcelList" Size="200,150" Headings="" onload="sql:SELECT goodsname,price,COMMIT FROM rpa.jd_goodslist WHERE DATE(dt)='2019-08-02' GROUP BY goodsname"><OnChanged><ExchangeData name="rpa_web" function="ExchangeData"/><submit next="ExcelList" namelist="ExchangeData" function="ExchangeData"/></OnChanged></ListCtrl>
+		<!--ListBox Name="traceList" Size="200,150" maxrows="10" onload="datareload"/--><BR AutoHeight="1"/>
+		<WebBrowser Name="rpa_web" Studio="1" Size="700,400" AutoSizeable="1" Url="%{ctrls.browser.url}" ecoption="{
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['price','COMMIT']
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : [%{goodsname}]
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value',
+                    splitArea : {show : true}
+                }
+            ],
+            series : [
+                {
+                    name:'price',
+                    type:'bar',
+                    data:[%{price}]
+                },
+                {
+                    name:'COMMIT',
+                    type:'bar',
+                    data:[%{COMMIT}]
+                }
+            ]
+        };"><OnChanged><!--assign name="ElmtInfo" expr="%{rpa_web}"></assign--><Log filename="../log/studio_%{app.now.date}.txt" expr="LocationUrl:%{rpa_web[LocationUrl]} LocationName:%{rpa_web[LocationName]} FullName:%{rpa_web[FullName]} LocationUrlHost:%{rpa_web[LocationUrlHost]}  LocationUrlPath:%{rpa_web[LocationUrlPath]} ReadyState:%{rpa_web[ReadyState]} HTTPStatusCode:%{rpa_web[HTTPStatusCode]} "/></OnChanged><!--OnError><info expr="LocationUrl:%{rpa_web[LocationUrl]} HTTPStatusCode:%{rpa_web[HTTPStatusCode]} "/></OnError--><!--OnStatus><info expr="Status:%{rpa_web[StatusText]} HTTPStatusCode:%{rpa_web[HTTPStatusCode]} "/></OnStatus-->
+		<OnStudio><assign name="ElmtInfo" expr="%{rpa_web[studiodata]}"/><Log filename="../log/studio_%{app.now.date}.txt" expr="%{rpa_web[studiodata]}"/></OnStudio></WebBrowser>
+		</Ctrls></GroupBox>
+		
+		<GroupBox Name="GBXMLTOOLE" Text="Editor & Test" feature="tab"><Ctrls>
+		<Button Name="biztest" Visible="true" Enabled="true" Size="50,20" Text="测试" ToolTip="测试代码框中对应的应用">
+			<OnClick><if cond="%{bizeditor}"><genxml name="bizxmltest">%{bizeditor}</genxml><submit next="fieldlst" namelist="genxml" function="bizxmltest"/>
+			<else/><Alert next="execsql" expr="BizXML脚本内容不能为空"/></if></OnClick></Button>
+		<Button Name="savexml" Size="50,20" Text="保存" ToolTip="根据表结构信息自动生成BizXML界面脚本">
+			<OnClick><genxml name="%{CB_Table}" bizXMLEditor="bizeditor" bizXMLEditor2Save="1"></genxml>
+			<submit next="fieldlst" namelist="genxml" function="bizxmltool"/></OnClick></Button>
+		<ListCtrl Name="fieldlst" Size="60,20" visible="0"/>
+		<BR/><TextBox Name="bizeditor" Size="888,600" Text="" ToolTip="编辑框[BizXML Code Editor]" Enabled="true"></TextBox>
+		</Ctrls></GroupBox>
+		</Ctrls></GroupBox>
+	</Ctrls>
+</WndTap>

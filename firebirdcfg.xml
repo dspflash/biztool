@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config remark="For Firebird BizXML Tool">
+<queryFormat id="dbs"></queryFormat>
+<queryFormat id="tables">SELECT TRIM(RDB$RELATION_NAME) AS TABLE_NAME FROM RDB$RELATIONS WHERE RDB$SYSTEM_FLAG =  0 AND RDB$VIEW_SOURCE IS NULL order by TABLE_NAME;</queryFormat>
+<dfmap id="dfmapfield"><map name="field" value="name"/></dfmap>
+<queryFormat id="tbfields">SELECT
+  B.RDB$FIELD_POSITION idx
+  ,TRIM(B.RDB$FIELD_NAME) name
+  ,(CASE D.RDB$TYPE_NAME
+    WHEN 'TEXT' THEN 'CHAR' || '(' || C.RDB$FIELD_LENGTH || ')'
+    WHEN 'LONG' THEN 'INTEGER' || '(' || C.RDB$FIELD_LENGTH || ')' 
+    WHEN 'SHORT' THEN 'SMALLINT' || '(' || C.RDB$FIELD_LENGTH || ')'
+    WHEN 'DOUBLE' THEN 'DOUBLE PRECISION' || '(' || C.RDB$FIELD_LENGTH || ')'
+    WHEN 'VARYING' THEN 'VARCHAR' || '(' || C.RDB$FIELD_LENGTH || ')'
+    WHEN 'FLOAT' THEN 'FLOAT'      || '(' || C.RDB$FIELD_LENGTH || ')'
+    WHEN 'BLOB' THEN 'BLOB'     
+    WHEN 'TIMESTAMP' THEN 'TIMESTAMP'
+  END) type
+  ,(case RC.RDB$CONSTRAINT_TYPE when 'PRIMARY KEY' THEN 'PRI' end) Key
+  ,B.RDB$DEFAULT_SOURCE default_val
+FROM RDB$RELATIONS A
+INNER JOIN RDB$RELATION_FIELDS B
+  ON A.RDB$RELATION_NAME = B.RDB$RELATION_NAME
+INNER JOIN RDB$FIELDS C
+  ON B.RDB$FIELD_SOURCE = C.RDB$FIELD_NAME
+INNER JOIN RDB$TYPES D
+  ON C.RDB$FIELD_TYPE = D.RDB$TYPE
+LEFT JOIN (SELECT R.*,
+I.RDB$RELATION_NAME AS TABLE_NAME,
+S.RDB$FIELD_NAME AS COLUMN_NAME
+FROM RDB$INDICES I
+LEFT JOIN RDB$INDEX_SEGMENTS S ON
+   (S.RDB$INDEX_NAME =I.RDB$INDEX_NAME) JOIN RDB$RELATION_CONSTRAINTS R
+ ON
+  (I.RDB$INDEX_NAME = R.RDB$INDEX_NAME)
+) rc on (rc.TABLE_NAME=A.RDB$RELATION_NAME and rc.COLUMN_NAME=B.RDB$FIELD_NAME)
+WHERE A.RDB$SYSTEM_FLAG = 0
+AND D.RDB$FIELD_NAME = 'RDB$FIELD_TYPE'
+AND A.RDB$RELATION_NAME = '%{CB_Table}' order by idx</queryFormat>
+<queryFormat id="tbdatas">select first 20 * from %{CB_Table}</queryFormat>
+<queryFormat id="tbdatacnts">select count(0) from %{CB_Table}</queryFormat>
+<queryFormat id="ctrltbfields">SELECT
+  B.RDB$FIELD_POSITION idx
+  ,TRIM(B.RDB$FIELD_NAME) name
+  ,(CASE D.RDB$TYPE_NAME
+    WHEN 'TEXT' THEN 'CHAR' || '(' || C.RDB$FIELD_LENGTH || ')'
+    WHEN 'LONG' THEN 'INTEGER' || '(' || C.RDB$FIELD_LENGTH || ')' 
+    WHEN 'SHORT' THEN 'SMALLINT' || '(' || C.RDB$FIELD_LENGTH || ')'
+    WHEN 'DOUBLE' THEN 'DOUBLE PRECISION' || '(' || C.RDB$FIELD_LENGTH || ')'
+    WHEN 'VARYING' THEN 'VARCHAR' || '(' || C.RDB$FIELD_LENGTH || ')'
+    WHEN 'FLOAT' THEN 'FLOAT'      || '(' || C.RDB$FIELD_LENGTH || ')'
+    WHEN 'BLOB' THEN 'BLOB'     
+    WHEN 'TIMESTAMP' THEN 'TIMESTAMP'
+  END) type
+  ,B.RDB$DEFAULT_SOURCE default_val
+FROM RDB$RELATIONS A
+INNER JOIN RDB$RELATION_FIELDS B
+  ON A.RDB$RELATION_NAME = B.RDB$RELATION_NAME
+INNER JOIN RDB$FIELDS C
+  ON B.RDB$FIELD_SOURCE = C.RDB$FIELD_NAME
+INNER JOIN RDB$TYPES D
+  ON C.RDB$FIELD_TYPE = D.RDB$TYPE
+WHERE A.RDB$SYSTEM_FLAG = 0
+AND D.RDB$FIELD_NAME = 'RDB$FIELD_TYPE'
+AND A.RDB$RELATION_NAME = '%{ctrldbtables}'</queryFormat>
+<queryFormat id="ctrltbdatas">select first 20 * from %{ctrldbtables}</queryFormat>
+<queryFormat id="tbpages">select %{data} from %{dbtable}</queryFormat>
+<!--queryFormat id="tables">select `TABLE_NAME` from `INFORMATION_SCHEMA`.`TABLES` where `TABLE_SCHEMA` = '%{CB_DB}' and `TABLE_TYPE` = 'BASE TABLE'</queryFormat-->
+</config>

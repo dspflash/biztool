@@ -1,0 +1,15 @@
+		<!--ListCtrl Name="dataList" Size="50,200" Onload="init">
+			<DbDetails>
+				<DbHost>local</DbHost>
+				<DbDatabase>E:\doc\全国经纬度0.xls</DbDatabase>
+				<DbSubDriver>Excel</DbSubDriver>
+				<DbTable>[全国经纬度$]</DbTable>
+				<Data>top 100 *</Data>
+				<queryFormat>select name from sysobjects where type in ('U') order by name asc</queryFormat> 
+			</DbDetails>
+			</ListCtrl>
+		<TAB/-->
+		<!--Button Name="import" Text="导入" Clickneedconfirm="true" Size="30,20">
+			<OnClick><import button="import">sql:insert into gpsl (province, city, dirstrict, Longitude, Latitude) values('%0','%1','%2','%3','%4')</import>
+			<submit next="dataList" namelist="import" method="post" function="import"/></OnClick></Button>
+		<Button Name="searchxsl" Size="30,20" Text="刷新"><OnClick><submit next="dataList"/></OnClick></Button-->

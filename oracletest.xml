@@ -1,0 +1,11 @@
+<WndTap Text="Test" Name="test">
+	<Ctrls>
+		<ListCtrl Name="tblst" PageSize="50" Location="20,60" Size="700,500" Onload="init">
+<DbDetails>
+	<QueryFormat>select * from dba_tables</QueryFormat>
+</DbDetails>
+</ListCtrl>
+<Button Name="search" Location="30,30" Size="100,24" Text="查找"><OnClick><submit next="tblst" namelist="DbDetails"/></OnClick>
+</Button>
+	</Ctrls>
+</WndTap>

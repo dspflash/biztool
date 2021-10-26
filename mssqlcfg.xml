@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config remark="For mssql BizXML Tool(2005)">
+<queryFormat id="dbs">Select Name From Master..SysDatabases order By Name</queryFormat>
+<queryFormat id="tables">select name from %{CB_DB}.dbo.sysobjects where type in ('U') order by name</queryFormat>
+<queryFormat id="views">select name from %{CB_DB}.dbo.sysobjects where type in ('v') order by name</queryFormat>
+<queryFormat id="procedures">SELECT obj.Name name, sc.TEXT detail FROM %{CB_DB}.dbo.syscomments sc INNER JOIN %{CB_DB}.dbo.sysobjects obj ON sc.Id = obj.ID where xtype='P'</queryFormat>
+<queryFormat id="tbfields">SELECT col.colorder AS idx ,
+        col.name AS Field ,
+        ISNULL(ep.[value], '') AS colDesc ,
+        t.name +'('+convert(varchar(5),col.length) +')' AS type ,
+        ISNULL(COLUMNPROPERTY(col.id, col.name, 'Scale'), 0) AS precision ,
+        CASE WHEN COLUMNPROPERTY(col.id, col.name, 'IsIdentity') = 1 THEN '1'
+             ELSE ''
+        END AS symbol ,
+        CASE WHEN EXISTS ( SELECT   1
+                           FROM     %{CB_DB}.dbo.sysindexes si
+                                    INNER JOIN %{CB_DB}.dbo.sysindexkeys sik ON si.id = sik.id
+                                                              AND si.indid = sik.indid
+                                    INNER JOIN %{CB_DB}.dbo.syscolumns sc ON sc.id = sik.id
+                                                              AND sc.colid = sik.colid
+                                    INNER JOIN %{CB_DB}.dbo.sysobjects so ON so.name = si.name
+                                                              AND so.xtype = 'PK'
+                           WHERE    sc.id = col.id
+                                    AND sc.colid = col.colid ) THEN 'pri'
+             ELSE ''
+        END AS 'key',
+        CASE WHEN col.isnullable = 1 THEN '1'
+             ELSE ''
+        END AS nullable ,
+        ISNULL(comm.text, '') AS defaultval
+FROM    %{CB_DB}.dbo.syscolumns col
+        LEFT  JOIN %{CB_DB}.dbo.systypes t ON col.xtype = t.xusertype
+        inner JOIN %{CB_DB}.dbo.sysobjects obj ON col.id = obj.id
+                                         AND obj.xtype = 'U'
+                                         AND obj.status >= 0
+        LEFT  JOIN %{CB_DB}.dbo.syscomments comm ON col.cdefault = comm.id
+        LEFT  JOIN sys.extended_properties ep ON col.id = ep.major_id
+                                                      AND col.colid = ep.minor_id
+                                                      AND ep.name = 'MS_Description'
+        LEFT  JOIN sys.extended_properties epTwo ON obj.id = epTwo.major_id
+                                                         AND epTwo.minor_id = 0
+                                                         AND epTwo.name = 'MS_Description'
+WHERE   obj.name = '%{CB_Table}'--表名
+ORDER BY col.colorder ;</queryFormat>
+<queryFormat id="tbdatas">select top 10 * from %{CB_DB}.dbo.%{CB_Table}</queryFormat>
+<queryFormat id="tbdatacnts">select count(0) from %{CB_DB}.dbo.%{CB_Table}</queryFormat>
+<queryFormat id="ctrltbfields">SELECT col.name AS Field ,col.colorder AS idx FROM %{CB_DB}.dbo.syscolumns col
+        LEFT  JOIN %{CB_DB}.dbo.systypes t ON col.xtype = t.xusertype
+        inner JOIN %{CB_DB}.dbo.sysobjects obj ON col.id = obj.id
+                                         AND obj.xtype = 'U'
+                                         AND obj.status >= 0
+WHERE   obj.name = '%{ctrldbtables}'--表名
+ORDER BY col.colorder ;</queryFormat>
+<queryFormat id="ctrltbdatas">select top 10 * from %{CB_DB}.dbo.%{ctrldbtables}</queryFormat>
+<queryFormat id="tbpages">select * from (select %{data},ROW_NUMBER() OVER(Order by %{order} ) AS RowNumber from %{dbtable} %{where}) as b where RowNumber BETWEEN  %{StartRow}+1 and %{StartRow}+%{PgSize}</queryFormat>
+<!--queryFormat id="tables">select `TABLE_NAME` from `INFORMATION_SCHEMA`.`TABLES` where `TABLE_SCHEMA` = '%{CB_DB}' and `TABLE_TYPE` = 'BASE TABLE'</queryFormat-->
+</config>
