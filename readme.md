@@ -244,7 +244,7 @@ style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></spa
 style='font-family:宋体;color:#444444'>页面级别配置及操作</span></a></h1>
 
 <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
-lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="images/image001.jpg"></span></p>
+lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="https://dspflash.github.io/res/biztool/image001.jpg"></span></p>
 
 <p class=MsoNormal align=left style='text-align:left;line-height:150%'><span
 style='font-family:宋体;color:#444444'>图中</span><span style='font-family:"MS Gothic";
@@ -549,7 +549,7 @@ style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></spa
 style='font-family:宋体'>字段级基础配置及操作</span></a></h1>
 
 <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
-lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="images/image002.jpg"></span></p>
+lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="https://dspflash.github.io/res/biztool/image002.jpg"></span></p>
 
 <p class=MsoNormal align=left style='text-align:left;line-height:150%'><span
 style='font-family:宋体;color:#444444'>图中</span><span style='font-family:"MS Gothic";
@@ -737,7 +737,7 @@ style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></spa
 style='font-family:宋体'>字段级扩展属性配置及操作</span></a></h1>
 
 <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
-lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="images/image003.jpg"></span></p>
+lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="https://dspflash.github.io/res/biztool/image003.jpg"></span></p>
 
 <p class=MsoNormal align=left style='text-align:left;line-height:150%'><span
 style='font-family:宋体;color:#444444'>图中</span><span style='font-family:"MS Gothic";
@@ -856,7 +856,7 @@ style='font-family:宋体'>设置相应参数后单页面显示如下，三个<s
 lang=EN-US>BizTool</span>预览显示）：</span></p>
 
 <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
-lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="images/image004.jpg"></span></p>
+lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="https://dspflash.github.io/res/biztool/image004.jpg"></span></p>
 
 <p class=MsoNormal align=left style='text-align:left;text-indent:21.0pt;
 line-height:150%'><span lang=EN-US style='font-family:宋体'>2Pages</span><span
@@ -877,26 +877,26 @@ lang=EN-US>orderinfo_Vs.xml</span>及<span lang=EN-US>orderinfo_V</span>中<span
 lang=EN-US>search</span>元素）</span></p>
 
 <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
-lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="images/image005.gif"><img style="width:auto;height:auto;max-width:100%" src="images/btxone0.png"></span></p>
+lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="https://dspflash.github.io/res/biztool/image005.gif"><img style="width:auto;height:auto;max-width:100%" src="https://dspflash.github.io/res/biztool/btxone0.png"></span></p>
 
 <p class=MsoNormal style='text-indent:21.0pt;line-height:150%;page-break-after:
 avoid'><span style='font-family:宋体'>编辑页面默认是不带列表框的，但本例中关联了订单行表，即列表框显示的是订单行，并在此开启订单行的编辑管理菜单</span></p>
 
 <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
-lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="images/image006.jpg"><img style="width:auto;height:auto;max-width:100%" src="images/btxone1.png"></span></p>
+lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="https://dspflash.github.io/res/biztool/image006.jpg"><img style="width:auto;height:auto;max-width:100%" src="https://dspflash.github.io/res/biztool/btxone1.png"></span></p>
 
 <p class=MsoNormal style='text-indent:21.0pt;line-height:150%;page-break-after:
 avoid'><span lang=EN-US>IE</span><span style='font-family:宋体'>浏览器访问</span></p>
 
 <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
-lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="images/image007.jpg"></span></p>
+lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="https://dspflash.github.io/res/biztool/image007.jpg"></span></p>
 
 <p class=MsoNormal style='line-height:150%;page-break-after:avoid'><span
 style='font-family:宋体'>手机客户端、浏览器访问</span></p>
 
 <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
-lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="images/image008.jpg">&nbsp;<img
-style="width:auto;height:auto;max-width:100%" src="images/image009.jpg"></span></p>
+lang=EN-US><img style="width:auto;height:auto;max-width:100%" src="https://dspflash.github.io/res/biztool/image008.jpg">&nbsp;<img
+style="width:auto;height:auto;max-width:100%" src="https://dspflash.github.io/res/biztool/image009.jpg"></span></p>
 
 <p class=MsoNormal align=center style='text-align:center'><span lang=EN-US>&nbsp;</span></p>
 
