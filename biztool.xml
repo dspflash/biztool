@@ -148,18 +148,19 @@
 			<DbDetails><xi:include href="%{dbtype}cfg.xml" xpointer="tbfields" xmlns:xi="http://www.w3.org/2001/XInclude"/></DbDetails>
 			<operator>
 			<op text="复制字段名" needconfirm="0"><Copy columns="Field"/><submit namelist="Copy" function="Copy"/></op>
-			<op text="禁用" needconfirm="0" checked="%{fieldlst[noused]}"><assign name="fieldlst[noused]" expr="js(1-%{fieldlst[noused]})" function="SetValue"/></op>
-			<op text="禁用全部" needconfirm="0"><foreach><assign name="noused" expr="1"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/></op>
-			<op text="启用全部" needconfirm="0"><foreach><assign name="noused" expr="0"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/></op>
-			<op text="必填项" needconfirm="0" checked="%{fieldlst[Required]}"><assign name="fieldlst[Required]" expr="js(1-%{fieldlst[Required]})" function="SetValue"/></op>
-			<op text="非必填项" needconfirm="0" checked="%{fieldlst[Requireless]}"><assign name="fieldlst[Requireless]" expr="js(1-%{fieldlst[Requireless]})" function="SetValue"/></op>
-			<op text="自动" needconfirm="0" checked="%{fieldlst[noInAndUp]}"><assign name="fieldlst[noInAndUp]" expr="js(1-%{fieldlst[noInAndUp]})" function="SetValue"/></op>
-			<op text="隐藏" needconfirm="0" checked="%{fieldlst[ctrlhide]}"><assign name="fieldlst[ctrlhide]" expr="js(1-%{fieldlst[ctrlhide]})" function="SetValue"/></op>
-			<op text="只读" needconfirm="0" checked="%{fieldlst[nomodify]}"><assign name="fieldlst[nomodify]" expr="js(1-%{fieldlst[nomodify]})" function="SetValue"/></op>
-			<op text="全部只读" needconfirm="0"><foreach><assign name="nomodify" expr="1"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/></op>
-			<op text="全部非只读" needconfirm="0"><foreach><assign name="nomodify" expr="0"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/></op>
-			<op text="非查询条件" needconfirm="0" checked="%{fieldlst[noquery]}"><if cond="!'%{fieldlst[noquery]}'"><assign name="fieldlst[noquery]" expr="0"/></if><assign name="fieldlst[noquery]" expr="js(1-%{fieldlst[noquery]})" function="SetValue"/></op>
-			<op text="非查询条件(全部)" needconfirm="0"><foreach><assign name="fieldlst[noquery]" expr="1"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/></op>
+			<op text="禁用" needconfirm="0" checked="%{fieldlst[noused]}"><assign name="fieldlst[noused]" expr="js(1-'%{fieldlst[noused]}')" function="SetValue"/><assign name="noused" expr="%{fieldlst[noused]}"/></op>
+			<op text="禁用全部" needconfirm="0"><foreach><assign name="noused" expr="1"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="noused" expr="%{fieldlst[noused]}"/></op>
+			<op text="启用全部" needconfirm="0"><foreach><assign name="noused" expr="0"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="noused" expr="%{fieldlst[noused]}"/></op>
+			<op text="必填项" needconfirm="0" checked="%{fieldlst[Required]}"><assign name="fieldlst[Required]" expr="js(1-'%{fieldlst[Required]}')" function="SetValue"/><assign name="Required" expr="%{fieldlst[Required]}"/></op>
+			<op text="非必填项" needconfirm="0" checked="%{fieldlst[Requireless]}"><assign name="fieldlst[Requireless]" expr="js(1-%{fieldlst[Requireless]})" function="SetValue"/><assign name="Requireless" expr="%{fieldlst[Requireless]}"/></op>
+			<op text="自动" needconfirm="0" checked="%{fieldlst[noInAndUp]}"><assign name="fieldlst[noInAndUp]" expr="js(1-'%{fieldlst[noInAndUp]}')" function="SetValue"/><assign name="noInAndUp" expr="%{fieldlst[noInAndUp]}"/></op>
+			<op text="隐藏" needconfirm="0" checked="%{fieldlst[ctrlhide]}"><assign name="fieldlst[ctrlhide]" expr="js(1-'%{fieldlst[ctrlhide]}')" function="SetValue"/><assign name="ctrlhide" expr="%{fieldlst[ctrlhide]}"/></op>
+			<op text="只读" needconfirm="0" checked="%{fieldlst[nomodify]}"><assign name="fieldlst[nomodify]" expr="js(1-'%{fieldlst[nomodify]}')" function="SetValue"/><assign name="nomodify" expr="%{fieldlst[nomodify]}"/></op>
+			<op text="全部只读" needconfirm="0"><foreach><assign name="nomodify" expr="1"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="nomodify" expr="%{fieldlst[nomodify]}"/></op>
+			<op text="全部非只读" needconfirm="0"><foreach><assign name="nomodify" expr="0"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="nomodify" expr="%{fieldlst[nomodify]}"/></op>
+			<op text="非查询条件" needconfirm="0" checked="%{fieldlst[noquery]}"><assign name="fieldlst[noquery]" expr="js(1-'%{fieldlst[noquery]}')" function="SetValue"/><assign name="noquery" expr="%{fieldlst[noquery]}"/></op>
+			<op text="非查询条件(全部)" needconfirm="0"><foreach><assign name="fieldlst[noquery]" expr="1"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="noquery" expr="%{fieldlst[noquery]}"/></op>
+			<op text="查询条件(全部)" needconfirm="0"><foreach><assign name="fieldlst[noquery]" expr="0"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="noquery" expr="%{fieldlst[noquery]}"/></op>
 			</operator>
 			<OnClick><Copy columns="Field"/><!--submit namelist="Copy" function="Copy"/><assign name="ctrldbdata" expr="%{fieldlst[ctrldbdata]}"/-->
 				<assign name="ctrltype" expr="%{fieldlst[ctrltype]}" function="SetSel"/>
@@ -184,6 +185,7 @@
 				<assign name="ctrlhide" expr="%{fieldlst[ctrlhide]}"/>
 				<assign name="tabname" expr="%{fieldlst[tabname]}"/>
 				<assign name="nomodify" expr="%{fieldlst[nomodify]}"/>
+				<assign name="noquery" expr="%{fieldlst[noquery]}"/>
 				<assign name="noinsert" expr="%{fieldlst[noinsert]}"/>
 				<assign name="insertparam" expr="%{fieldlst[insertparam]}"/>
 				<assign name="noupdate" expr="%{fieldlst[noupdate]}"/>
@@ -254,8 +256,8 @@
 		<TAB/>
 		<CheckBox Name="noused" Size="50,20" Text="未启用" Checked="false" ToolTip="是否不添加该字段至页面">
 			<OnChecked><assign name="fieldlst[noused]" expr="%{noused}" function="SetValue"/></OnChecked></CheckBox>
-		<CheckBox Name="nouseall" Size="80,20" Text="全部不启用" Checked="false" ToolTip="全选所有字段将他们统一设置为启用或禁用！">
-			<OnChecked><foreach><assign name="noused" expr="%{nouseall}"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/></OnChecked></CheckBox>
+		<!--CheckBox Name="nouseall" Size="80,20" Text="全部不启用" Checked="false" ToolTip="全选所有字段将他们统一设置为启用或禁用！">
+			<OnChecked><foreach><assign name="noused" expr="%{nouseall}"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/></OnChecked></CheckBox-->
 		<CheckBox Name="Required" Size="50,20" Text="必填" Checked="false" ToolTip="设定该字段为必填项">
 			<OnChecked><assign name="fieldlst[Required]" expr="%{Required}" function="SetValue"/></OnChecked></CheckBox>
 		<CheckBox Name="Requireless" Size="80,20" Text="可为空" Checked="false" ToolTip="设置该字段可不填，缺省为均可不填，但若有指定某字段可不填，则其他未明确设定的均为必填项">
@@ -266,8 +268,10 @@
 			<OnChecked><assign name="fieldlst[ctrlhide]" expr="%{ctrlhide}" function="SetValue"/></OnChecked></CheckBox>
 		<CheckBox Name="nomodify" Size="50,20" Text="只读" Checked="false" ToolTip="该字段内容不可修改">
 			<OnChecked><assign name="fieldlst[nomodify]" expr="%{nomodify}" function="SetValue"/></OnChecked></CheckBox>
-		<CheckBox Name="nomodifyall" Size="80,20" Text="全部只读" Checked="false" ToolTip="所有字段将统一设置为只读，不可修改！">
-			<OnChecked><foreach><assign name="nomodify" expr="%{nomodifyall}"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/></OnChecked></CheckBox>
+		<CheckBox Name="noquery" Size="50,20" Text="非查询条件" Checked="false" ToolTip="该字段内容不作查询条件">
+			<OnChecked><assign name="fieldlst[noquery]" expr="%{noquery}" function="SetValue"/></OnChecked></CheckBox>
+		<!--CheckBox Name="nomodifyall" Size="80,20" Text="全部只读" Checked="false" ToolTip="所有字段将统一设置为只读，不可修改！">
+			<OnChecked><foreach><assign name="nomodify" expr="%{nomodifyall}"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/></OnChecked></CheckBox-->
 		<CheckBox Name="pretab" Size="60,20" Text="TAB留空" Checked="false" ToolTip="控件前留空默认20个单位尺寸">
 			<OnChecked><assign name="fieldlst[pretab]" expr="%{pretab}" function="SetValue"/></OnChecked></CheckBox>
 		<CheckBox Name="nolabel" Size="50,20" Text="NoLabel" Checked="false" ToolTip="No Label,默认跟随字段属性">
