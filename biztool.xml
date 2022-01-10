@@ -112,14 +112,16 @@
 	</WndTaps>
 	<var name="dbname" value=""/>
 	<Ctrls><GroupBox Name="DBServer" Visible="true" Enabled="true" Text="BizTool(v2.0)"><Ctrls>
-		<ComboBox Name="CB_DB" Size="200,300" SelectedIndex="0" ToolTip="可选择的数据库">
+		<GroupBox cols="xs12 sm6 md4" Multiline="0" Name="GB_data_len"><Ctrls>
+		<ComboBox Name="CB_DB" Size="200,300" weight="200" SelectedIndex="0" ToolTip="可选择的数据库">
 			<OnSelEndOk><assign name="dbname" expr="%{CB_DB}%{session.dbext}"/><DbDetails/><submit next="CB_Table"/><submit next="ctrldbtables"/></OnSelEndOk></ComboBox>
 		<MagicCtrl Name="refreshCB_DB" Link="tip:刷新" images=",data/refresh.png" button="type:0" Size="20,20"><OnClick><submit next="CB_DB"/></OnClick></MagicCtrl>
-		<ComboBox Name="TBLorView" Size="200,300" SelectedIndex="0"  Items="表|视图" ToolTip="表/视图；Table|View">
+		<ComboBox Name="TBLorView" Size="200,300" weight="100" SelectedIndex="0"  Items="表|视图" ToolTip="表/视图；Table|View">
 			<OnSelEndOk><!--if cond="%{TBLorView[selectedIndex]}==1"><DbDetails><xi:include href="%{dbtype}cfg.xml" xpointer="views" xmlns:xi="http://www.w3.org/2001/XInclude"/></DbDetails>
 			<submit next="CB_Table" namelist="DbDetails"/><else/><DbDetails><xi:include href="%{dbtype}cfg.xml" xpointer="tables" xmlns:xi="http://www.w3.org/2001/XInclude"/></DbDetails>
 			<submit next="CB_Table" namelist="DbDetails"/><submit next="ctrldbtables" namelist="DbDetails"/></if--></OnSelEndOk></ComboBox>
-		<ComboBox Name="CB_Table" Size="300,300" SelectedIndex="0" OnLoad="init" ToolTip="当前数据库的表/视图">
+		</Ctrls></GroupBox><GroupBox cols="xs12 sm6 md8" Multiline="0" Name="GB_data_len"><Ctrls>
+		<ComboBox Name="CB_Table" Size="300,300" weight="300" SelectedIndex="0" OnLoad="init" ToolTip="当前数据库的表/视图">
 			<DbDetails><xi:include href="%{dbtype}cfg.xml" xpointer="tables" xmlns:xi="http://www.w3.org/2001/XInclude"/></DbDetails>
 			<OnSelEndOk><submit next="search" function="click"/></OnSelEndOk></ComboBox>
 		<MagicCtrl Name="refreshCB_Table" Link="tip:刷新" images=",data/refresh.png" button="type:0" Size="20,20"><OnClick><submit next="search" function="click"/></OnClick></MagicCtrl>
@@ -142,7 +144,7 @@
 				<else/><SetVisible name="GBXMLTOOL" Visible="%{biztooldesign}"/><SetVisible name="GBXMLTOOLE" Visible="1-%{biztooldesign}"/></if></OnChecked>
 				</RadioButton>
 			<RadioButton Name="biztooledit" Size="40,20" Text="编辑" RadioManager="biztooldesign" ToolTip="BizTool编辑模式"/-->
-		<BR/>
+		</Ctrls></GroupBox><BR AutoHeight="1"/><GroupBox cols="xs12 sm6 md4" Multiline="0" Name="GB_data_len"><Ctrls>
 		<GroupBox Name="GBTblStructure" Text="表结构"><Ctrls>
 		<ListCtrl Name="fieldlst" Size="160,500" ToolTip="字段信息" loadedclick="0"><xi:include href="%{dbtype}cfg.xml" xpointer="dfmapfield" xmlns:xi="http://www.w3.org/2001/XInclude"/>
 			<DbDetails><xi:include href="%{dbtype}cfg.xml" xpointer="tbfields" xmlns:xi="http://www.w3.org/2001/XInclude"/></DbDetails>
@@ -162,7 +164,7 @@
 			<op text="非查询条件(全部)" needconfirm="0"><foreach><assign name="fieldlst[noquery]" expr="1"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="noquery" expr="%{fieldlst[noquery]}"/></op>
 			<op text="查询条件(全部)" needconfirm="0"><foreach><assign name="fieldlst[noquery]" expr="0"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="noquery" expr="%{fieldlst[noquery]}"/></op>
 			</operator>
-			<OnClick><Copy columns="Field"/><!--submit namelist="Copy" function="Copy"/><assign name="ctrldbdata" expr="%{fieldlst[ctrldbdata]}"/-->
+			<OnClick><Copy columns="Field"/><submit namelist="Copy" function="Copy"/><!--assign name="ctrldbdata" expr="%{fieldlst[ctrldbdata]}"/-->
 				<assign name="ctrltype" expr="%{fieldlst[ctrltype]}" function="SetSel"/>
 				<assign name="noused" expr="%{fieldlst[noused]}"/>
 				<assign name="Required" expr="%{fieldlst[Required]}"/>
@@ -196,11 +198,11 @@
 				<assign name="ctrlAddonx" expr="%{fieldlst[addonx]}"/>
 				<assign name="ctrlxdata4sel" expr="%{fieldlst[exdata4select]}"/>
 				</OnClick></ListCtrl></Ctrls></GroupBox>
-		<TAB/>
+		</Ctrls></GroupBox><GroupBox cols="xs12 sm6 md8" Multiline="0" Name="GB_data_len"><Ctrls>
 		<GroupBox Name="GBTAB"><Ctrls>
 		<GroupBox Name="GBXMLTOOL" Text="BizXML Tool" feature="tab"><Ctrls>
 		<GroupBox Name="tbsetting" Text="表级参数设置" feature="tab" tooltip="表级参数设置TableSet"><Ctrls>
-		<TextBox Name="dfmaps4init" Size="500,20" Text=""><ToolTip>加载配置时控件（配置文件）/表字段匹配映射关系，Ctrl-Field Maps for init; eg:set idx attr with hr_shift_id in xpj, <dfmap><map value="idx" name="hr_shift_id"/></dfmap></ToolTip></TextBox>
+		<TextBox Name="dfmaps4init" Size="500,20" weight="500" Text=""><ToolTip>加载配置时控件（配置文件）/表字段匹配映射关系，Ctrl-Field Maps for init; eg:set idx attr with hr_shift_id in xpj, <dfmap><map value="idx" name="hr_shift_id"/></dfmap></ToolTip></TextBox>
 		<BR AutoHeight="1"/><Button Name="BTInit" Size="60,20" color="RGB(255,0,0)" Text="加载配置" ToolTip="加载已保存的配置文件“.xpj”来设置表及字段的属性，简化配置"><OnClick>
 			<assign name="dataviewextelmt" expr=""/><assign name="dataviewextattr" expr=""/><assign name="operators4v" expr=""/><assign name="exdata4select" expr=""/><assign name="header2Link" expr=""/><assign name="lines2Link" expr=""/><assign name="qryfmtOpCreate" expr=""/><assign name="qryfmtOpUpdate" expr=""/>
 			<initxml table="%{CB_Table}" DataLstExtElmt="dataviewextelmt" DataLstExtAttr="dataviewextattr" operators4v="operators4v" addons4tap="addons4tap">%{dfmaps4init}</initxml><submit next="fieldlst" namelist="initxml" function="bizxmltoolinit"/>
@@ -208,44 +210,44 @@
 		<TAB/><ComboBox Name="dataviewmode" Size="100,300" SelectedIndex="0" items="ListCtrl|Calendar|MagicCtrl|ListBox|GraphChart" ToolTip="Data View Mode">
 			<OnSelEndOk><assign name="dataviewextattr" expr="-1" function="setsel"/><assign name="dataviewextelmt" expr="-1" function="setsel"/>
 			</OnSelEndOk></ComboBox>
-		<CheckBox Name="genLanpkg" Size="50,20" Text="语言包" Checked="true" ToolTip="生成BizXML的同时也生成相应的语言包文件，该文件名在BizXML文件名添加‘_lan’来标识！"/>
-		<CheckBox Name="add2layout" Size="60,20" Text="加入界面" Checked="true" ToolTip="添加至主界面中！"/>
-		<CheckBox Name="ext2Pgs" Size="50,20" Text="2PAGES" Checked="false" ToolTip="额外生存‘2-PAGE’模式的查看编辑页面，其主页面后缀为‘_V’"/>
-		<CheckBox Name="preview" Size="50,20" Text="预览" Checked="true" ToolTip="预览生成的界面！"/>
+		<CheckBox Name="genLanpkg" Size="50,20" weight="50" Text="语言包" Checked="true" ToolTip="生成BizXML的同时也生成相应的语言包文件，该文件名在BizXML文件名添加‘_lan’来标识！"/>
+		<CheckBox Name="add2layout" Size="60,20" weight="50" Text="加入界面" Checked="true" ToolTip="添加至主界面中！"/>
+		<CheckBox Name="ext2Pgs" Size="50,20" weight="50" Text="2PAGES" Checked="false" ToolTip="额外生存‘2-PAGE’模式的查看编辑页面，其主页面后缀为‘_V’"/>
+		<CheckBox Name="preview" Size="50,20" weight="50" Text="预览" Checked="true" ToolTip="预览生成的界面！"/>
 		<TAB/><Button Name="genxml" Size="60,20" color="RGB(255,0,0)" Text="生成应用" ToolTip="根据表结构信息自动生成BizXML界面脚本">
 			<OnClick><genxml name="%{CB_Table}" bizXMLEditor="bizeditor" dataviewmode="%{dataviewmode}" dbname="%{dbname}" sizecoe="%{sizecoe}" add2layout="%{add2layout}" 
 			genLanpkg="%{genLanpkg}" preview="%{preview}" ext2Pgs="%{ext2Pgs}" text="%{CB_Table}" width="%{gbwidth}" EqualWidth="%{EqualWidth}" labelwidth="%{labelwidth}" 
 			datetimewidth="%{datetimewidth}" datewidth="%{datewidth}" ntabs="%{ntabs}" referLst="%{referLst}" jointbls="%{jointbls}" onLoadInit="%{onLoadInit}" loadedClick="%{loadedClick}" comboboxwidth="%{comboboxwidth}" exdata4select="%{exdata4select}" header2Link="%{header2Link}" lines2Link="%{lines2Link}" qryfmtOpCreate="%{qryfmtOpCreate}" qryfmtOpUpdate="%{qryfmtOpUpdate}">
 			<DataLstExtElmt>%{dataviewextelmt}</DataLstExtElmt><DataLstExtAttr>%{dataviewextattr}</DataLstExtAttr><operators4v>%{operators4v}</operators4v><addons4tap>%{addons4tap}</addons4tap></genxml>
 			<submit next="fieldlst" namelist="genxml" function="bizxmltool"/></OnClick></Button>
-		<BR/><TextBox Name="gbwidth" Size="25,20" Text="700" ToolTip="拟生成的应用界面宽度"/>
-		<TextBox Name="sizecoe" Size="15,20" Text="5" ToolTip="尺寸系数,即表字段长度与控件宽度的系数值"/>
-		<TextBox Name="EqualWidth" Size="25,20" Text="230" ToolTip="等宽设置,默认值为0,若非0值则启用所有控件等宽,若控件含有label则label宽度也分享该宽度值。"/>
-		<TextBox Name="labelwidth" Size="25,20" Text="60" ToolTip="lable默认宽度值"/>
-		<TextBox Name="comboboxwidth" Size="25,20" Text="120" ToolTip="下拉框Combobox默认宽度值"/>
-		<TextBox Name="datetimewidth" Size="25,20" Text="150" ToolTip="日期时间DateTime控件默认宽度值"/>
-		<TextBox Name="datewidth" Size="25,20" Text="90" ToolTip="日期控件Date默认宽度值"/>
-		<TextBox Name="ntabs" Size="25,20" Text="0" ToolTip="tab方式生成的页面及tab个数"/>
+		<BR/><TextBox Name="gbwidth" Size="25,20" weight="50" Text="700" ToolTip="拟生成的应用界面宽度"/>
+		<TextBox Name="sizecoe" Size="15,20" weight="50" Text="5" ToolTip="尺寸系数,即表字段长度与控件宽度的系数值"/>
+		<TextBox Name="EqualWidth" Size="25,20" Text="230" weight="50" ToolTip="等宽设置,默认值为0,若非0值则启用所有控件等宽,若控件含有label则label宽度也分享该宽度值。"/>
+		<TextBox Name="labelwidth" Size="25,20" Text="60" weight="50" ToolTip="lable默认宽度值"/>
+		<TextBox Name="comboboxwidth" Size="25,20" Text="120" weight="50" ToolTip="下拉框Combobox默认宽度值"/>
+		<TextBox Name="datetimewidth" Size="25,20" Text="150" weight="50" ToolTip="日期时间DateTime控件默认宽度值"/>
+		<TextBox Name="datewidth" Size="25,20" Text="90" weight="50" ToolTip="日期控件Date默认宽度值"/>
+		<TextBox Name="ntabs" Size="25,20" Text="0" weight="50" ToolTip="tab方式生成的页面及tab个数"/>
 		<CheckBox Name="onLoadInit" Size="80,20" Text="onLoadInit" Checked="false" ToolTip="初始化表同时加载数据！"/>
 		<CheckBox Name="loadedClick" Size="80,20" Text="loadedClick" Checked="false" ToolTip="加载数据自动触发Click事件！"/>
 		<CheckBox Name="referLst" Size="80,20" Text="ReferLst" Checked="false" ToolTip="更新操作关联表内容（有primary key）！"/>
 		<CheckBox Name="jointbls" Size="80,20" Text="JoinTBLs" Checked="true" ToolTip="关联表，显示关联表内容替代主表ID，让列表内容更具可读性"/>
 		<BR/>
-		<TextBox Name="dataviewextattr" Size="440,50" Text=""><ToolTip>拟生成的应用界面附加属性参数,eg:Size="15,20" Text="5"</ToolTip></TextBox>
+		<TextBox Name="dataviewextattr" Size="440,50" weight="50" Text=""><ToolTip>拟生成的应用界面附加属性参数,eg:Size="15,20" Text="5"</ToolTip></TextBox>
 		<Button Name="pickattrg" Size="50,50" Text="Pick"><OnClick><assign name="biztool.attr_pick.ctrl2insert" expr="biztool.dataviewextattr"/></OnClick></Button>
-		<BR autoheight="1"/><TextBox Name="dataviewextelmt" Size="440,50" Text="" ToolTip="">
+		<BR autoheight="1"/><TextBox Name="dataviewextelmt" Size="440,50" weight="50" Text="" ToolTip="">
 		<ToolTip>拟生成的应用界面附加元素,eg:<dfmap><map name="text" value="name"/></dfmap></ToolTip></TextBox>
 		<Button Name="pickextg" Size="50,50" Text="Pick"><OnClick><assign name="biztool.elmt_pick.ctrl2insert" expr="biztool.dataviewextelmt"/></OnClick></Button>
-		<BR autoheight="1"/><TextBox Name="operators4v" Size="440,50" Text="" ToolTip="">
+		<BR autoheight="1"/><TextBox Name="operators4v" Size="440,50" weight="50" Text="" ToolTip="">
 		<ToolTip>弹出式菜单项，Operators For view list,eg:<operator firstpage="1" nextpage="1" refresh="1" prepage="1"><op text="xx">x</op></operator></ToolTip></TextBox>
 		<Button Name="pickop4v_pick" Size="50,50" Text="Pick"><OnClick><assign name="biztool.op4v_pick.ctrl2insert" expr="biztool.operators4v"/></OnClick></Button>
-		<BR autoheight="1"/><TextBox Name="addons4tap" Size="440,50" Text=""><ToolTip>附加控件项，AddOn control for this Tap</ToolTip></TextBox>
+		<BR autoheight="1"/><TextBox Name="addons4tap" Size="440,50" weight="50" Text=""><ToolTip>附加控件项，AddOn control for this Tap</ToolTip></TextBox>
 		<Button Name="pickaddon" Size="50,50" Text="Pick"><OnClick><assign name="biztool.addon_pick.ctrl2insert" expr="biztool.addons4tap"/></OnClick></Button>
-		<BR autoheight="1"/><TextBox Name="exdata4select" Size="200,20" Text="" ToolTip="附加选择字段名，additional data field for select"/>
-		<TextBox Name="header2Link" Size="100,20" Text="" ToolTip="表头-行结构之字段ID，Header-line link, header primary key field name, eg:cc_co_header_id of table cc_co_header; if not empty sys will auto generate menu 'addone' from list view"/>
-		<TextBox Name="lines2Link" Size="200,20" Text="" ToolTip="表头-行结构之行表名，Header-line link, line table name, eg:cc_co_line, seperate by ','; if not empty sys will generate Ve/VV links and query action on header_id'modification"/>
-		<BR/><TextBox Name="qryfmtOpCreate" Size="500,40" Text="" ToolTip="自定义插入语句，替换自动生成的sql语句；Query Format for Create op, eg:insert into %{table} %{data}"/>
-		<BR AutoHeight="1"/><TextBox Name="qryfmtOpUpdate" Size="500,40" Text="" ToolTip="自定义更新语句，替换自动生成的sql语句；Query Format for Update op, eg:update %{table} set %{data} where %{where}"/>
+		<BR autoheight="1"/><TextBox Name="exdata4select" Size="200,20" weight="200" Text="" ToolTip="附加选择字段名，additional data field for select"/>
+		<TextBox Name="header2Link" Size="100,20" weight="100" Text="" ToolTip="表头-行结构之字段ID，Header-line link, header primary key field name, eg:cc_co_header_id of table cc_co_header; if not empty sys will auto generate menu 'addone' from list view"/>
+		<TextBox Name="lines2Link" Size="200,20" weight="200" Text="" ToolTip="表头-行结构之行表名，Header-line link, line table name, eg:cc_co_line, seperate by ','; if not empty sys will generate Ve/VV links and query action on header_id'modification"/>
+		<BR/><TextBox Name="qryfmtOpCreate" Size="500,40" weight="50" Text="" ToolTip="自定义插入语句，替换自动生成的sql语句；Query Format for Create op, eg:insert into %{table} %{data}"/>
+		<BR AutoHeight="1"/><TextBox Name="qryfmtOpUpdate" Size="500,40" weight="50" Text="" ToolTip="自定义更新语句，替换自动生成的sql语句；Query Format for Update op, eg:update %{table} set %{data} where %{where}"/>
 			</Ctrls></GroupBox>
 		<BR NULLHeight="1"/>
 		<GroupBox Name="fieldset1" Text="字段级基础参数设置" feature="tab" tooltip="字段级基础参数设置FieldSetBasic"><Ctrls>
@@ -254,53 +256,53 @@
 		<Button Name="movedown" intervalClick="0" Size="50,20" Text="下移"><OnClick><assign name="fieldlst" expr="down" function="move"/></OnClick></Button>
 		<Button Name="movebottom" Size="50,20" Text="移至末"><OnClick><assign name="fieldlst" expr="bottom" function="move"/></OnClick></Button>
 		<TAB/>
-		<CheckBox Name="noused" Size="50,20" Text="未启用" Checked="false" ToolTip="是否不添加该字段至页面">
+		<CheckBox Name="noused" Size="50,20" Text="未启用" weight="50" Checked="false" ToolTip="是否不添加该字段至页面">
 			<OnChecked><assign name="fieldlst[noused]" expr="%{noused}" function="SetValue"/></OnChecked></CheckBox>
 		<!--CheckBox Name="nouseall" Size="80,20" Text="全部不启用" Checked="false" ToolTip="全选所有字段将他们统一设置为启用或禁用！">
 			<OnChecked><foreach><assign name="noused" expr="%{nouseall}"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/></OnChecked></CheckBox-->
-		<CheckBox Name="Required" Size="50,20" Text="必填" Checked="false" ToolTip="设定该字段为必填项">
+		<CheckBox Name="Required" Size="50,20" Text="必填" weight="50" Checked="false" ToolTip="设定该字段为必填项">
 			<OnChecked><assign name="fieldlst[Required]" expr="%{Required}" function="SetValue"/></OnChecked></CheckBox>
-		<CheckBox Name="Requireless" Size="80,20" Text="可为空" Checked="false" ToolTip="设置该字段可不填，缺省为均可不填，但若有指定某字段可不填，则其他未明确设定的均为必填项">
+		<CheckBox Name="Requireless" Size="80,20" Text="可为空" weight="50" Checked="false" ToolTip="设置该字段可不填，缺省为均可不填，但若有指定某字段可不填，则其他未明确设定的均为必填项">
 			<OnChecked><assign name="fieldlst[Requireless]" expr="%{Requireless}" function="SetValue"/></OnChecked></CheckBox>
-		<BR/><CheckBox Name="noInAndUp" Size="50,20" Text="自动" Checked="true" ToolTip="自动化数据，无须添加或更新的字段，自增字段应设置">
+		<BR/><CheckBox Name="noInAndUp" Size="50,20" Text="自动" weight="50" Checked="true" ToolTip="自动化数据，无须添加或更新的字段，自增字段应设置">
 			<OnChecked><assign name="fieldlst[noInAndUp]" expr="%{noInAndUp}" function="SetValue"/></OnChecked></CheckBox>
-		<CheckBox Name="ctrlhide" Size="50,20" Text="隐藏" Checked="false" ToolTip="是否隐藏该字段内容">
+		<CheckBox Name="ctrlhide" Size="50,20" Text="隐藏" weight="50" Checked="false" ToolTip="是否隐藏该字段内容">
 			<OnChecked><assign name="fieldlst[ctrlhide]" expr="%{ctrlhide}" function="SetValue"/></OnChecked></CheckBox>
-		<CheckBox Name="nomodify" Size="50,20" Text="只读" Checked="false" ToolTip="该字段内容不可修改">
+		<CheckBox Name="nomodify" Size="50,20" Text="只读" weight="50" Checked="false" ToolTip="该字段内容不可修改">
 			<OnChecked><assign name="fieldlst[nomodify]" expr="%{nomodify}" function="SetValue"/></OnChecked></CheckBox>
-		<CheckBox Name="noquery" Size="50,20" Text="非查询条件" Checked="false" ToolTip="该字段内容不作查询条件">
+		<CheckBox Name="noquery" Size="50,20" Text="非查询条件" weight="50" Checked="false" ToolTip="该字段内容不作查询条件">
 			<OnChecked><assign name="fieldlst[noquery]" expr="%{noquery}" function="SetValue"/></OnChecked></CheckBox>
 		<!--CheckBox Name="nomodifyall" Size="80,20" Text="全部只读" Checked="false" ToolTip="所有字段将统一设置为只读，不可修改！">
 			<OnChecked><foreach><assign name="nomodify" expr="%{nomodifyall}"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/></OnChecked></CheckBox-->
-		<CheckBox Name="pretab" Size="60,20" Text="TAB留空" Checked="false" ToolTip="控件前留空默认20个单位尺寸">
+		<CheckBox Name="pretab" Size="60,20" Text="TAB留空" weight="50" Checked="false" ToolTip="控件前留空默认20个单位尺寸">
 			<OnChecked><assign name="fieldlst[pretab]" expr="%{pretab}" function="SetValue"/></OnChecked></CheckBox>
-		<CheckBox Name="nolabel" Size="50,20" Text="NoLabel" Checked="false" ToolTip="No Label,默认跟随字段属性">
+		<CheckBox Name="nolabel" Size="50,20" Text="NoLabel" weight="50" Checked="false" ToolTip="No Label,默认跟随字段属性">
 			<OnChecked><assign name="fieldlst[nolabel]" expr="%{nolabel}" function="SetValue"/></OnChecked></CheckBox>
-		<CheckBox Name="merge" Size="50,20" Text="merge" Checked="false" ToolTip="merge,合并至前一字段对应控件的GroupBox,默认跟随字段属性">
+		<CheckBox Name="merge" Size="50,20" Text="merge" weight="50" Checked="false" ToolTip="merge,合并至前一字段对应控件的GroupBox,默认跟随字段属性">
 			<OnChecked><assign name="fieldlst[merge]" expr="%{merge}" function="SetValue"/></OnChecked></CheckBox>
-		<CheckBox Name="newrow" Size="50,20" Text="换行" Checked="false" ToolTip="控件前另起一行">
+		<CheckBox Name="newrow" Size="50,20" Text="换行" weight="50" Checked="false" ToolTip="控件前另起一行">
 			<OnChecked><assign name="fieldlst[newrow]" expr="%{newrow}" function="SetValue"/></OnChecked></CheckBox>
 		<BR/><TextBox Name="ctrltext" Size="50,20" ToolTip="ctrltext,显示的文字"><OnEnChange><assign name="fieldlst[ctrltext]" expr="%{ctrltext}" function="SetValue"/></OnEnChange></TextBox>
 		<TextBox Name="ctrlsize" Size="50,20" ToolTip="ctrlsize,控件长宽值，用逗号分隔，eg:100,20；亦可只设置宽度，省去逗号及高度，高度将使用默认值"><OnEnChange><assign name="fieldlst[ctrlsize]" expr="%{ctrlsize}" function="SetValue"/></OnEnChange></TextBox>
-		<Label Align="Right" Text="tabname" Name="lb_tabname" Size="60,20"/>
-		<TextBox Name="tabname" Size="200,20" ToolTip="对页面做多Tab显示控制，每个Tab显示的第一个字段设置这个Tab的名称，不得使用控件名(字段名)"><OnEnChange><assign name="fieldlst[tabname]" expr="%{tabname}" function="SetValue"/></OnEnChange></TextBox>
+		<Label Align="Right" Text="tabname" Name="lb_tabname" weight="50" Size="60,20"/>
+		<TextBox Name="tabname" Size="200,20" weight="200" ToolTip="对页面做多Tab显示控制，每个Tab显示的第一个字段设置这个Tab的名称，不得使用控件名(字段名)"><OnEnChange><assign name="fieldlst[tabname]" expr="%{tabname}" function="SetValue"/></OnEnChange></TextBox>
 		<BR/><CheckBox Name="noinsert" Size="80,20" Text="noinsert" Checked="false" ToolTip="">
 			<OnChecked><assign name="fieldlst[noinsert]" expr="%{noinsert}" function="SetValue"/></OnChecked></CheckBox>
-		<TextBox Name="insertparam" Size="400,20" ToolTip="自定义字段取值,eg:%{x[x]},@xyz">
+		<TextBox Name="insertparam" Size="400,20" weight="50" ToolTip="自定义字段取值,eg:%{x[x]},@xyz">
 			<OnEnChange><if cond="!%{noinsert}"><assign name="fieldlst[insertparam]" expr="%{insertparam}" function="SetValue"/></if></OnEnChange></TextBox>
 		<BR/><CheckBox Name="noupdate" Size="80,20" Text="noupdate" Checked="false" ToolTip="">
 			<OnChecked><assign name="fieldlst[noupdate]" expr="%{noupdate}" function="SetValue"/></OnChecked></CheckBox>
-		<TextBox Name="updateparam" Size="400,20" ToolTip="自定义字段取值,eg:%{x[x]},@xyz">
+		<TextBox Name="updateparam" Size="400,20" weight="50" ToolTip="自定义字段取值,eg:%{x[x]},@xyz">
 			<OnEnChange><if cond="!%{noupdate}"><assign name="fieldlst[updateparam]" expr="%{updateparam}" function="SetValue"/></if></OnEnChange></TextBox>
 		<BR/><CheckBox Name="noselect" Size="80,20" Text="noselect" Checked="false" ToolTip="">
 			<OnChecked><assign name="fieldlst[noselect]" expr="%{noselect}" function="SetValue"/></OnChecked></CheckBox>
-		<TextBox Name="selectparam" Size="400,20" ToolTip="自定义字段取值,eg:bc as xyz">
+		<TextBox Name="selectparam" Size="400,20" weight="50" ToolTip="自定义字段取值,eg:bc as xyz">
 			<OnEnChange><if cond="!%{noselect}"><assign name="fieldlst[selectparam]" expr="%{selectparam}" function="SetValue"/></if></OnEnChange></TextBox>
-		<BR/><TextBox Name="ctrlAddon" Size="440,50" Text=""><ToolTip>附加控件项（与该控件合并）；AddOn control(merged in) for after this control</ToolTip><OnEnChange><assign name="fieldlst[Addon]" expr="%{ctrlAddon}" function="SetValue"/></OnEnChange></TextBox>
+		<BR/><TextBox Name="ctrlAddon" Size="440,50" weight="50" Text=""><ToolTip>附加控件项（与该控件合并）；AddOn control(merged in) for after this control</ToolTip><OnEnChange><assign name="fieldlst[Addon]" expr="%{ctrlAddon}" function="SetValue"/></OnEnChange></TextBox>
 		<Button Name="pickaddon" Size="50,50" Text="Pick"><OnClick><assign name="biztool.addon_pick.ctrl2insert" expr="biztool.ctrlAddon"/></OnClick></Button>
-		<BR autoheight="1"/><TextBox Name="ctrlAddonx" Size="440,50" Text=""><ToolTip>附加控件项（添加在该控件后）；AddOn control(External) for after this control</ToolTip><OnEnChange><assign name="fieldlst[Addonx]" expr="%{ctrlAddonx}" function="SetValue"/></OnEnChange></TextBox>
+		<BR autoheight="1"/><TextBox Name="ctrlAddonx" Size="440,50" weight="50" Text=""><ToolTip>附加控件项（添加在该控件后）；AddOn control(External) for after this control</ToolTip><OnEnChange><assign name="fieldlst[Addonx]" expr="%{ctrlAddonx}" function="SetValue"/></OnEnChange></TextBox>
 		<Button Name="pickaddonx" Size="50,50" Text="Pick"><OnClick><assign name="biztool.addon_pick.ctrl2insert" expr="biztool.ctrlAddonx"/></OnClick></Button>
-		<BR autoheight="1"/><TextBox Name="ctrlxdata4sel" Size="490,20" Text=""><ToolTip>附加选择字段名，additional data field for select after this control</ToolTip><OnEnChange><assign name="fieldlst[exdata4select]" expr="%{ctrlxdata4sel}" function="SetValue"/></OnEnChange></TextBox>
+		<BR autoheight="1"/><TextBox Name="ctrlxdata4sel" Size="490,20" weight="50" Text=""><ToolTip>附加选择字段名，additional data field for select after this control</ToolTip><OnEnChange><assign name="fieldlst[exdata4select]" expr="%{ctrlxdata4sel}" function="SetValue"/></OnEnChange></TextBox>
 		</Ctrls></GroupBox>
 		<BR NULLHeight="1"/>
 		<GroupBox Name="fieldset2" Text="字段级扩展参数设置" feature="tab" tooltip="字段级扩展参数设置FieldSetExt"><Ctrls>
@@ -319,7 +321,7 @@
 			<assign name="fieldlst[extelmt]" expr="%{ctrlextelmt[windowtext]}" function="SetValue"/>
 			</OnClick></Button-->
 		<TAB/>
-		<CheckBox Name="dbfcsm" Size="50,20" Text="dbfcsm" Checked="false" ToolTip="数据表字段控件自动匹配">
+		<CheckBox Name="dbfcsm" Size="80,20" Text="dbfcsm" Checked="false" ToolTip="数据表字段控件自动匹配">
 			<OnChecked><assign name="fieldlst[dbfcsm]" expr="%{dbfcsm}" function="SetValue"/></OnChecked></CheckBox>
 		<TAB/><Button Name="resetfieldinfo" Size="50,20" Text="重置" ToolTip="重置下面的信息以重新选择或输入">
 		<OnClick><assign name="ctrldbdata" expr=""/>
@@ -341,14 +343,14 @@
 			<assign name="ctrlhide" expr=""/--></OnClick>
 			</Button>
 		<BR/>
-		<TextBox Name="ctrlextattr" Size="440,50" Text=""><ToolTip>字段附加属性参数,eg:Size="15,20" Text="5"</ToolTip><OnEnChange><assign name="fieldlst[extattr]" expr="%{ctrlextattr}" function="SetValue"/></OnEnChange></TextBox>
+		<TextBox Name="ctrlextattr" Size="440,50" weight="50" Text=""><ToolTip>字段附加属性参数,eg:Size="15,20" Text="5"</ToolTip><OnEnChange><assign name="fieldlst[extattr]" expr="%{ctrlextattr}" function="SetValue"/></OnEnChange></TextBox>
 		<Button Name="pickattrc" Size="50,50" Text="Pick"><OnClick><assign name="biztool.attr_pick.ctrl2insert" expr="biztool.ctrlextattr"/></OnClick></Button>
-		<BR autoheight="1"/><TextBox Name="ctrlextelmt" Size="440,50" Text="" ToolTip=""><ToolTip>字段对应控件附加元素,eg:<dfmap><map name="text" value="name"/></dfmap></ToolTip><OnEnChange><assign name="fieldlst[extelmt]" expr="%{ctrlextelmt}" function="SetValue"/></OnEnChange></TextBox>
+		<BR autoheight="1"/><TextBox Name="ctrlextelmt" Size="440,50" weight="50" Text="" ToolTip=""><ToolTip>字段对应控件附加元素,eg:<dfmap><map name="text" value="name"/></dfmap></ToolTip><OnEnChange><assign name="fieldlst[extelmt]" expr="%{ctrlextelmt}" function="SetValue"/></OnEnChange></TextBox>
 		<Button Name="pickextc" Size="50,50" Text="Pick"><OnClick><assign name="biztool.elmt_pick.ctrl2insert" expr="biztool.ctrlextelmt"/></OnClick></Button>
-		<BR autoheight="1"/><ComboBox Name="TBLorViewf" Size="50,300" SelectedIndex="0"  Items="表|视图" ToolTip="表/视图;Table|View">
+		<BR autoheight="1"/><ComboBox Name="TBLorViewf" Size="80,300" SelectedIndex="0"  Items="表|视图" ToolTip="表/视图;Table|View">
 			<OnSelEndOk><if cond="%{TBLorViewf[selectedIndex]}==1"><DbDetails><xi:include href="%{dbtype}cfg.xml" xpointer="views" xmlns:xi="http://www.w3.org/2001/XInclude"/></DbDetails><submit next="ctrldbtables" namelist="DbDetails"/><else/><DbDetails><xi:include href="%{dbtype}cfg.xml" xpointer="tables" xmlns:xi="http://www.w3.org/2001/XInclude"/></DbDetails>
 			<submit next="ctrldbtables" namelist="DbDetails"/></if></OnSelEndOk></ComboBox>
-		<ComboBox Name="ctrldbtables" Size="180,300" SelectedIndex="-1" ToolTip="当前数据库表/视图，ctrl db tables" Onload="init">
+		<ComboBox Name="ctrldbtables" Size="150,300" SelectedIndex="-1" weight="150" ToolTip="当前数据库表/视图，ctrl db tables" Onload="init">
 			<DbDetails><xi:include href="%{dbtype}cfg.xml" xpointer="tables" xmlns:xi="http://www.w3.org/2001/XInclude"/></DbDetails>
 			<OnSelEndOk><if cond="%{ctrldbtables}"><submit next="ctrldbdatas"/><submit next="ctrldatalst"/>
 			<if cond="%{ctrldbtable}"><assign name="tbjoins" expr=" inner join "/><else/><assign name="tbjoins" expr=""/></if>
@@ -356,7 +358,7 @@
 			<else/><submit next="ctrldbdatas" function="resetcontent"/>
 			</if></OnSelEndOk>
 			</ComboBox>
-		<ComboBox Name="ctrldbdatas" Size="200,300" SelectedIndex="-1" colsOrder="name" ToolTip="表/视图的字段ctrldbdatas selectings">
+		<ComboBox Name="ctrldbdatas" Size="200,300" SelectedIndex="-1" weight="200" colsOrder="name" ToolTip="表/视图的字段ctrldbdatas selectings">
 			<DbDetails><xi:include href="%{dbtype}cfg.xml" xpointer="ctrltbfields" xmlns:xi="http://www.w3.org/2001/XInclude"/></DbDetails>
 			<OnSelEndOk><if cond="%{ctrldbdatas}">
 			<if cond="%{ctrldbdata}"><assign name="ctrldbdata" expr="%{ctrldbdata},"/></if>
@@ -365,19 +367,19 @@
 			<if cond="!%{ctrldbtable}"><assign name="ctrldbtable" expr="%{ctrldbtables}"/></if>
 			</if></OnSelEndOk>
 			</ComboBox>
-		<TextBox Name="ctrldbdatarel" Size="60,20" ToolTip="ctrldbdatarel,控件数据与表中关联的字段">
+		<TextBox Name="ctrldbdatarel" Size="60,20" weight="60" ToolTip="ctrldbdatarel,控件数据与表中关联的字段">
 			<OnEnChange><assign name="fieldlst[ctrldbdatarel]" expr="%{ctrldbdatarel}" function="SetValue"/></OnEnChange></TextBox>
-		<BR/><TextBox Name="ctrldbtable" Size="490,50" ToolTip="ctrldbtable，控件项值读取表">
+		<BR/><TextBox Name="ctrldbtable" Size="490,50" weight="50" ToolTip="ctrldbtable，控件项值读取表">
 			<OnEnChange><if cond="%{ctrldbtable}"><if cond="%{CB_DB}"><assign name="fieldlst[ctrldbname]" expr="%{dbname}" function="SetValue"/></if></if>
 			<assign name="fieldlst[ctrldbtable]" expr="%{ctrldbtable}" function="SetValue"/>
 			</OnEnChange></TextBox>
-		<BR autoheight="1"/><TextBox Name="ctrldbdata" Size="245,50" ToolTip="ctrldbdata，控件项值字段列表,当数据库表为空时则为选项内容（选项格式支持为1|2|3,1~3,1~3*10）">
+		<BR autoheight="1"/><TextBox Name="ctrldbdata" Size="245,50" weight="50" ToolTip="ctrldbdata，控件项值字段列表,当数据库表为空时则为选项内容（选项格式支持为1|2|3,1~3,1~3*10）">
 			<OnEnChange><assign name="fieldlst[ctrldbdata]" expr="%{ctrldbdata}" function="SetValue"/></OnEnChange></TextBox>
-		<TextBox Name="ctrldbwhere" Size="245,50" ToolTip="ctrldbwhere,控件项值读取条件,eg: id=0, id=%{id[id]}">
+		<TextBox Name="ctrldbwhere" Size="245,50" weight="50" ToolTip="ctrldbwhere,控件项值读取条件,eg: id=0, id=%{id[id]}">
 			<OnEnChange><assign name="fieldlst[ctrldbwhere]" expr="%{ctrldbwhere}" function="SetValue"/></OnEnChange></TextBox>
-		<BR autoheight="1"/><TextBox Name="queryformat" Size="490,50" ToolTip="queryformat,控件项值读取格式,eg:select %{data} from %{dbtable}">
+		<BR autoheight="1"/><TextBox Name="queryformat" Size="490,50" weight="50" ToolTip="queryformat,控件项值读取格式,eg:select %{data} from %{dbtable}">
 			<OnEnChange><assign name="fieldlst[queryformat]" expr="%{queryformat}" function="SetValue"/></OnEnChange></TextBox>
-		<BR autoheight="1"/><ListCtrl Name="ctrldatalst" Size="490,80"><DbDetails><xi:include href="%{dbtype}cfg.xml" xpointer="ctrltbdatas" xmlns:xi="http://www.w3.org/2001/XInclude"/></DbDetails></ListCtrl>
+		<BR autoheight="1"/><ListCtrl Name="ctrldatalst" Size="490,80" weight="50" ><DbDetails><xi:include href="%{dbtype}cfg.xml" xpointer="ctrltbdatas" xmlns:xi="http://www.w3.org/2001/XInclude"/></DbDetails></ListCtrl>
 		</Ctrls></GroupBox></Ctrls></GroupBox>
 		
 		<GroupBox Name="GBXMLTOOLE" Text="BizXML Editor" feature="tab"><Ctrls>
@@ -387,7 +389,7 @@
 		<Button Name="savexml" Size="50,20" Text="保存" ToolTip="根据表结构信息自动生成BizXML界面脚本">
 			<OnClick><genxml name="%{CB_Table}" bizXMLEditor="bizeditor" bizXMLEditor2Save="1"></genxml>
 			<submit next="fieldlst" namelist="genxml" function="bizxmltool"/></OnClick></Button>
-		<BR/><TextBox Name="bizeditor" Size="518,470" Text="" ToolTip="编辑框[BizXML Code Editor]"></TextBox>
+		<BR/><TextBox Name="bizeditor" Size="518,470" Text="" weight="50" ToolTip="编辑框[BizXML Code Editor]"></TextBox>
 		</Ctrls></GroupBox>
 
 		<GroupBox Name="GBTblData" Text="表数据/结果" feature="tab"><Ctrls>
@@ -403,12 +405,12 @@
 			<Alert next="datalst" expr="表中无数据"/></if></OnClick></Button>
 		<TextBox Name="tb_totalRows" ReadOnly="1" Size="50,20" ToolTip="表记录总数">
 			<DbDetails><xi:include href="%{dbtype}cfg.xml" xpointer="tbdatacnts" xmlns:xi="http://www.w3.org/2001/XInclude"/></DbDetails></TextBox>
-		<BR/><TextBox Name="tb_sql" Size="518,470" Text="" ToolTip="SQL Query"></TextBox>
+		<BR/><TextBox Name="tb_sql" Size="518,470" Text="" weight="50" ToolTip="SQL Query"></TextBox>
 		</Ctrls></GroupBox>
 		</Ctrls></GroupBox>
 		
 		</Ctrls></GroupBox>
-			
+		</Ctrls></GroupBox>	
 		</Ctrls>      
 	<OnChanged><if cond="'%{OnChangedCtrl}'=='datalst'"><if cond="!%{datalst[sqlok]}"><if cond="%{datalst[errorcode]}==1">
 		<notify next="tst" expr="%{datalst[errorMsg]}"/><elseif cond="%{datalst[errorMsg]}"/><info next="tst" expr="%{datalst[errorMsg]}"/><else/><info next="tst" expr="操作成功！"/></if></if></if></OnChanged>
