@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WndTap Name="dbinfoAccess" Text="MS Access管理"><Ctrls>
+	<GroupBox Name="GroupBox1" Visible="true" Enabled="true" Text="MS Access数据"><Ctrls>
+		<GroupBox cols="xs12 sm6 md8" Multiline="0" Name="GB_TBLVIEWs"><Ctrls>
+			<ComboBox Name="CB_Table" Size="300,300" weight="300" SelectedIndex="0" OnLoad="init" tooltip="数据库中的表名列表">
+				<DbDetails><!--queryFormat>select msysobjects.name from msysobjects where (left([name],1) &lt;&gt; "~ ") and (left$([name],4) &lt;&gt; "Msys ") and (msysobjects.type)=1 </queryFormat-->
+				<queryFormat>select name from [msysobjects] where type=1 and flags=0 </queryFormat></DbDetails>
+				<OnSelEndOk><submit next="search" function="click"/></OnSelEndOk></ComboBox>
+			<Button Name="search" Size="60,20" Text="刷新" tooltip="读取选中的数据表更新下面的列表数据">
+				<OnClick>
+					<if cond="'%{CB_Table}'">
+						<submit next="tb_totalRows"/><submit next="fieldlst"/>
+						<DbDetails><queryFormat>select * from %{CB_Table}</queryFormat></DbDetails>
+						<submit namelist="DbDetails" next="datalst"/>
+					<else/><assign name="tb_totalRows" expr=""/>
+						<submit next="fieldlst" function="resetcontent"/><submit next="datalst" function="resetcontent"/>
+					</if>
+				</OnClick></Button>
+		</Ctrls></GroupBox>
+		<GroupBox cols="xs12 sm6 md4" Multiline="0" Name="GB_DBOP"><Ctrls>
+			<Button Name="execsql" Visible="true" Enabled="true" Size="60,20" Text="执行" ToolTip="执行文本框tb_sql中的SQL语句，并将结果显示在下面的列表中">
+				<OnClick>
+					<if cond="'%{tb_sql}'"><DbDetails><queryFormat>%{tb_sql}</queryFormat></DbDetails>
+						<submit next="datalst" namelist="DbDetails"/>
+					<else/><Alert next="execsql" expr="语句不能为空"/></if>
+				</OnClick></Button>
+			<Button Name="export" Visible="true" Enabled="true" Size="60,20" Text="导出" tooltip="导出数据保存为CSV格式，文件保存为'表名.csv'">
+				<OnClick>
+					<if cond="%{tb_totalRows}"><Save>%{CB_Table}.csv</Save>%{CB_DB}_
+						<submit next="datalst" namelist="Save" function="savetofile"/>
+					<else/>
+						<Alert next="datalst" expr="表中无数据"/></if>
+				</OnClick></Button>
+			<TextBox Name="tb_totalRows" ReadOnly="1" Size="60,20" ToolTip="选中的数据表记录总数">
+				<DbDetails>
+					<DbTable>%{CB_Table}</DbTable>%{CB_DB}.
+					<queryFormat>select count(0) from %{dbtable}</queryFormat></DbDetails></TextBox>
+			<Button Name="enable_tb_sql" Visible="true" Enabled="true" Size="100,20" weight="100" Text="启用/禁用SQLEdit" ToolTip="改变文本框tb_sql的启用/禁用状态">
+				<OnClick>
+					<SetEnabled name="TB_sql" enabled="js(1-%{tb_sql[enabled]})"/>
+					<!--if cond="%{tb_sql[enabled]}"><assign name="enable_tb_sql" expr="禁用SQLEdit"/>
+					<else/><assign name="enable_tb_sql" expr="启用SQLEdit"/></if-->
+				</OnClick></Button>
+			<!--Button Name="import" Text="导入" Clickneedconfirm="true" Size="30,20">
+				<OnClick><import button="import">sql:insert into gpsl (province, city, dirstrict, Longitude, Latitude) values('%0','%1','%2','%3','%4')</import>
+				<submit next="dataList" namelist="import" method="post" function="import"/></OnClick></Button>
+			<Button Name="searchxsl" Size="30,20" Text="刷新"><OnClick><submit next="dataList"/></OnClick></Button-->
+		</Ctrls></GroupBox>
+
+		<BR AutoHeight="1"/>
+		<GroupBox Name="GBDBSQL" Text="SQL Query" cols="xs12"><Ctrls>
+			<TextBox Name="tb_sql" Size="660,160" weight="1" Text="" ToolTip="tb_sql，SQL Query，默认已禁用" Enabled="false"></TextBox>
+		</Ctrls></GroupBox>
+		<BR AutoHeight="1"/>
+		<GroupBox Name="GBDBDATA" Text="数据库表数据" cols="xs12"><Ctrls>
+			<ListCtrl Name="datalst" Size="660,160"><DbDetails><queryFormat>select * from %{CB_Table}</queryFormat></DbDetails></ListCtrl>
+		</Ctrls></GroupBox>
+	</Ctrls></GroupBox>
+			
+	</Ctrls>      
+	<OnChanged><if cond="'%{dbinfo.OnChangedCtrl}'=='datalst'"><if cond="!%{dbinfo.datalst[sqlok]}"><if cond="%{dbinfo.datalst[errorcode]}==1">
+		<notify next="tst" expr="%{dbinfo.datalst[errorMsg]}"/><elseif cond="'%{dbinfo.datalst[errorMsg]}'"/><info next="tst" expr="%{dbinfo.datalst[errorMsg]}"/><else/><info next="tst" expr="操作成功！"/></if></if></if></OnChanged>
+	<OnActivate><if cond="%{session.biztoolsqleditor}==1"><SetEnabled name="tb_sql" Enabled="true"/><SetEnabled name="bizeditor" Enabled="true"/></if>
+		<!--if cond="%{session.biztoolinitdb}==1"><if cond="%{CB_DB[itemcount]}==1"><DbDetails><queryFormat>show databases</queryFormat></DbDetails><submit namelist="DbDetails" next="CB_DB"/></if></if--></OnActivate>
+    </WndTap>
