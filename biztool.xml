@@ -155,15 +155,15 @@
 			<operator>
 			<op text="复制字段名" needconfirm="0"><Copy columns="Field"/><submit namelist="Copy" function="Copy"/></op>
 			<op text="禁用" needconfirm="0" checked="%{fieldlst[noused]}"><assign name="fieldlst[noused]" expr="js(1-'%{fieldlst[noused]}')" function="SetValue"/><assign name="noused" expr="%{fieldlst[noused]}"/></op>
-			<op text="禁用全部" needconfirm="0"><foreach><assign name="noused" expr="1"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="noused" expr="%{fieldlst[noused]}"/></op>
-			<op text="启用全部" needconfirm="0"><foreach><assign name="noused" expr="0"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="noused" expr="%{fieldlst[noused]}"/></op>
+			<op text="禁用全部" needconfirm="0"><foreach><assign name="fieldlst[noused]" expr="1"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="noused" expr="%{fieldlst[noused]}"/></op>
+			<op text="启用全部" needconfirm="0"><foreach><assign name="fieldlst[noused]" expr="0"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="noused" expr="%{fieldlst[noused]}"/></op>
 			<op text="必填项" needconfirm="0" checked="%{fieldlst[Required]}"><assign name="fieldlst[Required]" expr="js(1-'%{fieldlst[Required]}')" function="SetValue"/><assign name="Required" expr="%{fieldlst[Required]}"/></op>
 			<op text="非必填项" needconfirm="0" checked="%{fieldlst[Requireless]}"><assign name="fieldlst[Requireless]" expr="js(1-%{fieldlst[Requireless]})" function="SetValue"/><assign name="Requireless" expr="%{fieldlst[Requireless]}"/></op>
 			<op text="自动" needconfirm="0" checked="%{fieldlst[noInAndUp]}"><assign name="fieldlst[noInAndUp]" expr="js(1-'%{fieldlst[noInAndUp]}')" function="SetValue"/><assign name="noInAndUp" expr="%{fieldlst[noInAndUp]}"/></op>
 			<op text="隐藏" needconfirm="0" checked="%{fieldlst[ctrlhide]}"><assign name="fieldlst[ctrlhide]" expr="js(1-'%{fieldlst[ctrlhide]}')" function="SetValue"/><assign name="ctrlhide" expr="%{fieldlst[ctrlhide]}"/></op>
 			<op text="只读" needconfirm="0" checked="%{fieldlst[nomodify]}"><assign name="fieldlst[nomodify]" expr="js(1-'%{fieldlst[nomodify]}')" function="SetValue"/><assign name="nomodify" expr="%{fieldlst[nomodify]}"/></op>
-			<op text="全部只读" needconfirm="0"><foreach><assign name="nomodify" expr="1"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="nomodify" expr="%{fieldlst[nomodify]}"/></op>
-			<op text="全部非只读" needconfirm="0"><foreach><assign name="nomodify" expr="0"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="nomodify" expr="%{fieldlst[nomodify]}"/></op>
+			<op text="全部只读" needconfirm="0"><foreach><assign name="fieldlst[nomodify]" expr="1"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="nomodify" expr="%{fieldlst[nomodify]}"/></op>
+			<op text="全部非只读" needconfirm="0"><foreach><assign name="fieldlst[nomodify]" expr="0"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="nomodify" expr="%{fieldlst[nomodify]}"/></op>
 			<op text="非查询条件" needconfirm="0" checked="%{fieldlst[noquery]}"><assign name="fieldlst[noquery]" expr="js(1-'%{fieldlst[noquery]}')" function="SetValue"/><assign name="noquery" expr="%{fieldlst[noquery]}"/></op>
 			<op text="非查询条件(全部)" needconfirm="0"><foreach><assign name="fieldlst[noquery]" expr="1"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="noquery" expr="%{fieldlst[noquery]}"/></op>
 			<op text="查询条件(全部)" needconfirm="0"><foreach><assign name="fieldlst[noquery]" expr="0"/></foreach><Submit next="fieldlst" namelist="foreach" function="foreach"/><assign name="noquery" expr="%{fieldlst[noquery]}"/></op>
